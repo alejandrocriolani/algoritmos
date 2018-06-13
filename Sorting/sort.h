@@ -104,6 +104,43 @@ void quickSort(T arr[], int n)
 }
 
 template <typename T>
+void merge(T arr1[], int sz1, T arr2[], int sz2, T r[])
+{
+    int i = 0, j = 0;
+    for(int k = 0; k < sz1 + sz2; k++)
+    {
+        if(i < sz1 && j < sz2 && arr1[i] <= arr2[j] || i < sz1 && j >= sz2)
+            r[k] = arr1[i++];
+        else if(i < sz1 && j < sz2 && arr2[j] <= arr1[i] || j < sz2 && i >= sz1)
+            r[k] = arr2[j++];
+    }
+}
+
+template <typename T>
+T * mergeSort(T arr[], int size)
+{
+    T *r = new T [size];
+    int mid = size/2;
+    T *a1, *a2;
+
+    if(size ==  1)
+    {
+        r[0] = arr[0];
+        return r;
+    }
+
+    a1 = mergeSort(arr, mid);
+    a2 = mergeSort(arr + mid, size - mid);
+
+    merge(a1, mid, a2, size -mid, r);
+
+    delete [] a1;
+    delete [] a2;
+
+    return r;
+}
+
+template <typename T>
 void print(T arr[], int n)
 {
     std::cout << "<";
